@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {getNextGame} from './helpers/getNextGame';
+import {updateGameIndex} from './helpers/updateGameIndex';
 
 export interface Team {
     name: string
@@ -12,6 +13,7 @@ function App() {
     
     const handleStartNewGame = () => {
         setCurrentGame(getNextGame(currentGameIndex))
+        setCurrentGameIndex(updateGameIndex(currentGameIndex))
     }
     
     return (
