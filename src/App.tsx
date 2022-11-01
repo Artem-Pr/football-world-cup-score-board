@@ -1,13 +1,17 @@
-import React, {useState} from 'react';
+import React, {useMemo, useState} from 'react';
 import {getNextGame} from './helpers/getNextGame';
 import {updateGameIndex} from './helpers/updateGameIndex';
 import {Game} from './types';
 import {updateGameScore} from './helpers/updateGameScore';
+import {getGamesSortedByTotalScore} from './helpers/getGamesSortedByTotalScore';
 
 function App() {
+    const [showGamesSummary, setShowGamesSummary] = useState(false)
     const [games, setGames] = useState<Game[]>([])
     const [currentGameIndex, setCurrentGameIndex] = useState(0)
     const [currentGame, setCurrentGame] = useState<Game | null>(null)
+    
+    const gamesSummary = useMemo(() => getGamesSortedByTotalScore(games), [games])
     
     const handleStartNewGame = () => {
         setCurrentGame(getNextGame(currentGameIndex))
@@ -21,6 +25,10 @@ function App() {
     const handleFinishGame = () => {
         currentGame && setGames([currentGame, ...games])
         setCurrentGame(null)
+    }
+    
+    const handleToggleGamesSummary = () => {
+        setShowGamesSummary(!showGamesSummary)
     }
 
     return (
@@ -44,6 +52,12 @@ function App() {
             >
                 Finish game
             </button>
+            <button
+                onClick={handleToggleGamesSummary}
+                disabled={!Boolean(games.length)}
+            >
+                Show games summary
+            </button>
             {currentGame &&
                 <div style={{
                     display: 'grid',
@@ -56,6 +70,17 @@ function App() {
                     <h2>{currentGame[0].goals}</h2>
                     <h2>{currentGame[1].goals}</h2>
                 </div>
+            }
+            {showGamesSummary &&
+                <ol>
+                    {gamesSummary.map((game, idx) => (
+                        <li key={idx}>
+                            <span>{`${game[0].name} ${game[0].goals}`}</span>
+                            <span>{' - '}</span>
+                            <span>{`${game[1].name} ${game[1].goals}`}</span>
+                        </li>
+                    ))}
+                </ol>
             }
         </>
     );
