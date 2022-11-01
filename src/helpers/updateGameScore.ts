@@ -1,7 +1,7 @@
-import {Team} from '../types';
+import {Game} from '../types';
 import {getRandomScore} from './getRandomScore';
 
-export const updateGameScore = (currentGame: [Team, Team]): [Team, Team] => {
+export const updateGameScore = (currentGame: Game) => {
     const goal = getRandomScore()
     
     return currentGame.map((team, idx) => {
@@ -10,5 +10,5 @@ export const updateGameScore = (currentGame: [Team, Team]): [Team, Team] => {
             goals: team.goals + 1
         }
         return team
-    }) as [Team, Team]
+    }) as Game
 }

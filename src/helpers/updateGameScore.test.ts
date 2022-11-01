@@ -1,5 +1,5 @@
 import {updateGameScore} from './updateGameScore';
-import {Team} from '../types';
+import {Game} from '../types';
 import {getRandomScore} from './getRandomScore';
 
 jest.mock('./getRandomScore', () => ({
@@ -11,7 +11,7 @@ const mockedGetRandomScore = getRandomScore as unknown as jest.MockedFunction<()
 describe('updateGameScore', () => {
     test('should return an updated game with adding a goal for the first team', () => {
         mockedGetRandomScore.mockImplementation(() => 0)
-        const currentGame: [Team, Team] = [
+        const currentGame: Game = [
             {
                 name: 'Uruguay',
                 goals: 0,
@@ -21,7 +21,7 @@ describe('updateGameScore', () => {
                 goals: 0,
             },
         ]
-        const updatedGame: [Team, Team] = [
+        const updatedGame: Game = [
             {
                 name: 'Uruguay',
                 goals: 1,
@@ -36,7 +36,7 @@ describe('updateGameScore', () => {
     
     test('should return an updated game with adding a goal for the second team', () => {
         mockedGetRandomScore.mockImplementation(() => 1)
-        const currentGame: [Team, Team] = [
+        const currentGame: Game = [
             {
                 name: 'Uruguay',
                 goals: 0,
@@ -46,7 +46,7 @@ describe('updateGameScore', () => {
                 goals: 0,
             },
         ]
-        const updatedGame: [Team, Team] = [
+        const updatedGame: Game = [
             {
                 name: 'Uruguay',
                 goals: 0,

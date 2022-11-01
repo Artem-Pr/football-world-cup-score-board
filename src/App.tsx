@@ -1,12 +1,13 @@
 import React, {useState} from 'react';
 import {getNextGame} from './helpers/getNextGame';
 import {updateGameIndex} from './helpers/updateGameIndex';
-import {Team} from './types';
+import {Game} from './types';
 import {updateGameScore} from './helpers/updateGameScore';
 
 function App() {
+    const [games, setGames] = useState<Game[]>([])
     const [currentGameIndex, setCurrentGameIndex] = useState(0)
-    const [currentGame, setCurrentGame] = useState<[Team, Team] | null>(null)
+    const [currentGame, setCurrentGame] = useState<Game | null>(null)
     
     const handleStartNewGame = () => {
         setCurrentGame(getNextGame(currentGameIndex))
@@ -14,11 +15,14 @@ function App() {
     }
     
     const handleUpdateScore = () => {
-        if (currentGame) {
-            setCurrentGame(updateGameScore(currentGame))
-        }
+        currentGame && setCurrentGame(updateGameScore(currentGame))
     }
     
+    const handleFinishGame = () => {
+        currentGame && setGames([currentGame, ...games])
+        setCurrentGame(null)
+    }
+
     return (
         <>
             <h1>Football World Cup Score Board</h1>
@@ -33,6 +37,12 @@ function App() {
                 disabled={!Boolean(currentGame)}
             >
                 Update score
+            </button>
+            <button
+                onClick={handleFinishGame}
+                disabled={!Boolean(currentGame)}
+            >
+                Finish game
             </button>
             {currentGame &&
                 <div style={{

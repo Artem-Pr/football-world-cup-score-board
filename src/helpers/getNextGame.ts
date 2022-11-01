@@ -1,5 +1,5 @@
 import {gamesList} from './gamesList';
-import {Team} from '../types';
+import {Game} from '../types';
 
 export const getNextGame = (currentGameIndex: number) => {
     const gameIndex = currentGameIndex >= gamesList.length ? 0 : currentGameIndex
@@ -7,5 +7,5 @@ export const getNextGame = (currentGameIndex: number) => {
     return countriesForNextGame.map(country => ({
         name: country,
         goals: 0
-    })) as [Team, Team]
+    })) as Game
 }
