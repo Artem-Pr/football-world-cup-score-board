@@ -1,11 +1,8 @@
 import React, {useState} from 'react';
 import {getNextGame} from './helpers/getNextGame';
 import {updateGameIndex} from './helpers/updateGameIndex';
-
-export interface Team {
-    name: string
-    goals: number
-}
+import {Team} from './types';
+import {updateGameScore} from './helpers/updateGameScore';
 
 function App() {
     const [currentGameIndex, setCurrentGameIndex] = useState(0)
@@ -16,6 +13,12 @@ function App() {
         setCurrentGameIndex(updateGameIndex(currentGameIndex))
     }
     
+    const handleUpdateScore = () => {
+        if (currentGame) {
+            setCurrentGame(updateGameScore(currentGame))
+        }
+    }
+    
     return (
         <>
             <h1>Football World Cup Score Board</h1>
@@ -24,6 +27,12 @@ function App() {
                 disabled={Boolean(currentGame)}
             >
                 Start a game
+            </button>
+            <button
+                onClick={handleUpdateScore}
+                disabled={!Boolean(currentGame)}
+            >
+                Update score
             </button>
             {currentGame &&
                 <div style={{

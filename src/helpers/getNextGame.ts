@@ -1,5 +1,5 @@
-import {Team} from '../App';
 import {gamesList} from './gamesList';
+import {Team} from '../types';
 
 export const getNextGame = (currentGameIndex: number) => {
     const gameIndex = currentGameIndex >= gamesList.length ? 0 : currentGameIndex
